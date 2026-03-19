@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-const OLLAMA_HOST = "http://localhost:11434";
+const OLLAMA_HOST = process.env.OLLAMA_URL || "http://localhost:11434";
 
 async function askOllama(prompt:string){
     const res = await axios.post(`${OLLAMA_HOST}/api/generate`, {
