@@ -12,8 +12,11 @@ services:
     entrypoint: >
       sh -c "
         ollama serve &
-        sleep 5 &&
+        until ollama list > /dev/null 2>&1; do
+          sleep 1
+        done &&
         ollama pull llama3 &&
+        ollama pull deepseek-coder &&
         wait
       "
 
@@ -29,7 +32,7 @@ services:
       - ollama
     volumes:
       - ../../apps/api:/app
-    command: npm run dev
+    command: sh -c "npm install && npm run dev"
 
 volumes:
   ollama_data:
