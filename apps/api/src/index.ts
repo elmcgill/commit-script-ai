@@ -1,17 +1,20 @@
 import express from "express";
-import sqlite3 from "sqlite3";
-import generateRoute from "./routes/generate";
-import githubRoutes from "./routes/github";
+import { initDepedencyInjector } from "./config/injectionContainer";
+import { UserRoutes } from "./routes/github";
 
-const db = new sqlite3.Database("commit_script.db");
+async function bootstrap() {
 
-const app = express();
+    const app = express();
 
-app.use(express.json());
+    app.use(express.json());
 
-app.use("/api/generate", generateRoute)
-app.use("/auth", githubRoutes);
+    const { githubController } = await initDepedencyInjector();
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
+    app.use("/auth", UserRoutes(githubController));
+
+    app.listen(3000, () => {
+        console.log("Server running on port 3000");
+    });
+}
+
+bootstrap();
