@@ -1,6 +1,9 @@
 import express from "express";
+import sqlite3 from "sqlite3";
 import generateRoute from "./routes/generate";
 import githubRoutes from "./routes/github";
+
+const db = new sqlite3.Database("commit_script.db");
 
 const app = express();
 
