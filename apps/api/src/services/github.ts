@@ -37,7 +37,7 @@ export function GithubService(userRepository: IUserRepository):IGithubService {
             repositoryOutlink: user.repos_url
         });
 
-        return persistedUser;
+        return persistedUser.dataValues;
     }
 
     return {
