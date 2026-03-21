@@ -2,8 +2,15 @@ import axios from "axios";
 import { IUserRepository } from "../repository/user.repository";
 import { User } from "../models/user.model";
 
+export interface GithubRepositoryDTO {
+    id: number;
+    name: string;
+    url: string;
+}
+
 export interface IGithubService {
     authenticateUser: (code:string) => Promise<User>;
+    fetchAllRepositories: (user:User) => Promise<GithubRepositoryDTO[]>;
 }
 
 export function GithubService(userRepository: IUserRepository):IGithubService {
@@ -40,7 +47,17 @@ export function GithubService(userRepository: IUserRepository):IGithubService {
         return persistedUser.dataValues;
     }
 
+    const fetchAllRepositories = async (user:User) => {
+        const repositories = await axios.get(`${user.repositoryOutlink}?sort=updated`);
+        return repositories.data.map((repo) => ({
+            id: repo.id,
+            name: repo.name,
+            url: repo.url
+        }))
+    }
+
     return {
-        authenticateUser
+        authenticateUser,
+        fetchAllRepositories
     }
 }

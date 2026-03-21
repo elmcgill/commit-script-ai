@@ -10,6 +10,7 @@ export function UserRoutes(githubController: IGithubController):Router {
 
     router.get("/github/callback", githubController.authUser);
     router.get("/decode", githubController.decodeUser);
+    router.get("/github/repositories", githubController.fetchAllRepositories);
 
     return router;
 }

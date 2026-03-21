@@ -10,6 +10,7 @@ export interface IGithubController {
     authRedirect: (res: Response) => Promise<void>;
     authUser: (req: Request, res: Response) => Promise<void>;
     decodeUser: (req: Request, res: Response) => Promise<void>;
+    fetchAllRepositories: (req:Request, res:Response) => Promise<void>;
 }
 
 export const GithubController = (service: IGithubService): IGithubController => {
@@ -70,10 +71,28 @@ export const GithubController = (service: IGithubService): IGithubController => 
 
     }
 
+    const fetchAllRepositories = async (req:Request, res:Response) => {
+        try{
+            const token = req.cookies.user;
+            if(!token){
+                res.status(401).json({repositories: []});
+            }
+
+            const decodedUser = jwt.verify(token, JWT_SECRET);
+
+            const repositories = await service.fetchAllRepositories(decodedUser as User);
+
+            res.status(200).json({repositories});
+        } catch(err){
+            res.status(500).json({repositories: []});
+        }
+    }
+
     return {
         authRedirect,
         authUser,
-        decodeUser
+        decodeUser,
+        fetchAllRepositories
     }
 
 }
