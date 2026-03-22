@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IGithubService } from "../services/github";
+import { GithubPullRequestDTO, IGithubService } from "../services/github";
 import dotenv from "dotenv";
 import { User } from "../models/user.model";
 import jwt from "jsonwebtoken";
@@ -11,6 +11,8 @@ export interface IGithubController {
     authUser: (req: Request, res: Response) => Promise<void>;
     decodeUser: (req: Request, res: Response) => Promise<void>;
     fetchAllRepositories: (req:Request, res:Response) => Promise<void>;
+    fetchOpenPullRequests: (req:Request, res:Response) => Promise<void>;
+    fetchFileContentAndDiff: (req:Request, res:Response) => Promise<void>;
 }
 
 export const GithubController = (service: IGithubService): IGithubController => {
@@ -88,11 +90,50 @@ export const GithubController = (service: IGithubService): IGithubController => 
         }
     }
 
+    const fetchOpenPullRequests = async (req:Request, res:Response) => {
+        try {
+            const token = req.cookies.user;
+            const repository = req.query.repository;
+
+            if(!token || !repository){
+                res.status(401).json({pullRequests: []});
+            }
+
+            const decodedUser = jwt.verify(token, JWT_SECRET);
+
+            const pullRequests = await service.fetchOpenPullRequests(decodedUser as User, repository as string);
+            res.status(200).json({pullRequests})
+        } catch(err){
+            res.status(500).json({pullRequests: []})
+        }
+    }
+
+    const fetchFileContentAndDiff = async (req:Request, res:Response) => {
+        try {
+            const token = req.cookies.user;
+            const {repository, pullRequest} = req.body;
+
+            if(!token || !repository){
+                res.status(401).json({message: 'Unauthenticated or missing request body'});
+            }
+
+            const decodedUser = jwt.verify(token, JWT_SECRET);
+            const data = await service.fetchDiffAndFilesContentForLLM(decodedUser as User, repository as string, pullRequest as GithubPullRequestDTO);
+            
+            res.status(200).json(data);
+
+        } catch(err){
+            res.status(500).json({message: 'Unable to fetch files or diff'})
+        }
+    }
+
     return {
         authRedirect,
         authUser,
         decodeUser,
-        fetchAllRepositories
+        fetchAllRepositories,
+        fetchOpenPullRequests,
+        fetchFileContentAndDiff
     }
 
 }

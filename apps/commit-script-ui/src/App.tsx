@@ -12,6 +12,8 @@ function App() {
     const [user, setUser] = useState();
     const [repositories, setRepositories] = useState();
     const [selectedRepository, setSelectedRepository] = useState();
+    const [pullRequests, setPullRequests] = useState();
+    const [selectedPullRequest, setSelectedPullRequest] = useState();
 
     const decodeUserFromJWT = async () => {
         try{
@@ -31,13 +33,35 @@ function App() {
     const updateSelectedRepository = (e:React.ChangeEvent<HTMLSelectElement>) => {
         e.stopPropagation();
         const id = e.currentTarget.value;
-        const repository = repositories.find((repo) => repo.id === id)[0];
+        const repository = repositories.find((repo) => repo.id === +id);
         setSelectedRepository(repository);
     }
 
-    const cloneRepositoryAndFetchPRs = (e:React.MouseEvent<HTMLButtonElement>) => {
+    const fetchPRs = async (e:React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        console.log("load repository into LLM context, and pull PRs to start generating content");
+        const repositoryName = selectedRepository?.name;
+        if(repositoryName){
+            const res = await axios.get(`http://localhost:3000/auth/github/pullRequests?repository=${repositoryName}`);
+            const pullRequests = res.data;
+            setPullRequests(pullRequests.pullRequests);
+            if(pullRequests?.length > 0) setSelectedPullRequest(pullRequests[0]);
+        }
+    }
+
+    const updateSelectedPullRequest = (e:React.ChangeEvent<HTMLSelectElement>) => {
+        e.stopPropagation();
+        const id = e.currentTarget.value;
+        const pullRequest = pullRequests.find((pr) => pr.id === + id);
+        setSelectedPullRequest(pullRequest);
+    }
+
+    const reviewPullRequest = async (e:React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        const res = await axios.post('http://localhost:3000/auth/github/filesAndDiff', {
+            repository: selectedRepository.name,
+            pullRequest: selectedPullRequest
+        });
+        console.log(res.data);
     }
 
     useEffect(() => {
@@ -46,10 +70,6 @@ function App() {
             decodeUserFromJWT();
         } 
     }, [appStatus]);
-
-    console.log(user?.username);
-    console.log(repositories);
-    console.log(selectedRepository);
 
     const authenticate = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
@@ -76,10 +96,22 @@ function App() {
                                     <option id={opt.id} key={opt.id} value={opt.id}>{opt.name}</option>
                                 ))}
                             </select>
-                            <button onClick={cloneRepositoryAndFetchPRs}>Load Repository</button>
+                            <button onClick={fetchPRs}>Load Repository</button>
                         </div>
                     }
+                    {pullRequests && pullRequests.length > 0 &&
+                        <>
+                            <p>Select Pull Request to continue</p>
+                            <select onChange={updateSelectedPullRequest}>
+                                {pullRequests.map((pr) => (
+                                    <option id={pr.id} key={pr.id} value={pr.id}>{pr.title}</option>
+                                ))}
+                            </select>
+                            <button onClick={reviewPullRequest}>Start PR Review</button>
+                        </>
+                    }
                 </>
+
             }
         </>
     )
