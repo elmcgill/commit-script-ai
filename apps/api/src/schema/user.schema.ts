@@ -9,6 +9,8 @@ export class User extends Model {
     declare repositoryOutlink: string;
 }
 
+export type UserType = typeof User;
+
 export function initUserModel(sequelize: Sequelize) {
     User.init(
         {
@@ -47,8 +49,4 @@ export function initUserModel(sequelize: Sequelize) {
     )
 
     return User;
-}
-
-export const userColumns = {
-
 }

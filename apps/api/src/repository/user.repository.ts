@@ -1,18 +1,11 @@
-import { User } from "../models/user.model";
-
-interface CreateUserDTO {
-    token: string;
-    username: string;
-    fullName: string;
-    avatar: string;
-    repositoryOutlink: string;
-}
+import { User, UserType } from "../schema/user.schema";
+import { CreateUserDTO } from "./dto/CreateUserDTO";
 
 export interface IUserRepository {
     create: (data:CreateUserDTO) => Promise<User>
 }
 
-export const UserRepository = (model: typeof User): IUserRepository => {
+export const UserRepository = (model: UserType): IUserRepository => {
     const create = async (data:CreateUserDTO) => {
         return await model.create({
             token: data.token,
