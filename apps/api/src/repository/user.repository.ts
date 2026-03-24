@@ -1,11 +1,9 @@
 import { User, UserType } from "../schema/user.schema";
 import { CreateUserDTO } from "./dto/CreateUserDTO";
+import { IUserRepository } from "./types.repository";
 
-export interface IUserRepository {
-    create: (data:CreateUserDTO) => Promise<User>
-}
+export default function UserRepository(model: UserType): IUserRepository {
 
-export const UserRepository = (model: UserType): IUserRepository => {
     const create = async (data:CreateUserDTO) => {
         return await model.create({
             token: data.token,
@@ -16,7 +14,13 @@ export const UserRepository = (model: UserType): IUserRepository => {
         });
     }
 
+    const readById = async (id:string): Promise<User> => {
+        const user = await model.findByPk(id);
+        return user?.get();
+    }
+
     return {
-        create
+        create,
+        readById
     }
 }

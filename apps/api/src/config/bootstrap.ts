@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import { sequelize } from './database';
 import registerControllers from '../controllers';
 import { registerRoutes } from '../routes';
+import { generateSchema } from '../schema';
+import registerRepositories from '../repository';
+import registerServices from '../services';
 
 /* Bootstrap application and perform dependency injection */
 export async function bootstrap(app: Express) {
@@ -29,17 +32,19 @@ export async function bootstrap(app: Express) {
     app.use(express.json());
 
     await sequelize.authenticate();
-    /*
+    
     const schema = generateSchema(sequelize);
-    */
+    
     await sequelize.sync({force: RESET_DATABASE_ON_STARTUP});
 
     /* Create Repositories for DI */
+    const repositories = registerRepositories(schema);
 
     /* Create Services for DI */
+    const services = registerServices(repositories);
 
     /* Create Controllers for DI */
-    const controllers = registerControllers();
+    const controllers = registerControllers(services);
 
     /* Map server routes */
     registerRoutes(app, controllers);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import'./App.css'
+import './App.css'
 
 type Status = 'CHECKING_JWT' | 'NEEDS_GITHUB_AUTH' | 'GITHUB_AUTHED' | 'USER_LOADED';
 
@@ -10,7 +10,20 @@ function App() {
 
     const [appStatus, setAppStatus] = useState<Status>('CHECKING_JWT');
     const [user, setUser] = useState();
-    const [repositories, setRepositories] = useState();
+
+    const validateUser = async () => {
+        try{
+            const [userPromise] = await Promise.all([
+                axios.get("http://localhost:3000/auth/validate"),
+            ]);
+            setUser(userPromise.data.user);
+            setAppStatus("USER_LOADED");
+        } catch(e){
+            setAppStatus("NEEDS_GITHUB_AUTH");
+        } 
+    }
+    /*
+        const [repositories, setRepositories] = useState();
     const [selectedRepository, setSelectedRepository] = useState();
     const [pullRequests, setPullRequests] = useState();
     const [selectedPullRequest, setSelectedPullRequest] = useState();
@@ -63,56 +76,27 @@ function App() {
         });
         console.log(res.data);
     }
-
+    */
     useEffect(() => {
         console.log(appStatus);
         if(appStatus === "CHECKING_JWT"){
-            decodeUserFromJWT();
+            validateUser();
         } 
     }, [appStatus]);
 
+    useEffect(() => {
+        console.log(user);
+    }, [user])
+
     const authenticate = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        window.location.href = "http://localhost:3000/auth/github";
+        window.location.href = "http://localhost:3000/auth/";
     }
 
     return (
         <>
-            {appStatus === 'CHECKING_JWT' ?
-                <>
-                    Loading State...
-                </>
-                :
-                <>
-                    {(!user && !repositories) ?
-                        <button onClick={authenticate}>Start auth flow</button>
-                        :
-                        <div>
-                            <img src={user.avatar} alt={"Github user avatar"} style={{width: '40px', height: '40px', objectFit: 'cover'}}/>
-                            <h2>{user.username}</h2>
-                            <h2>Select repository to work with</h2>
-                            <select onChange={updateSelectedRepository}>
-                                {repositories.map((opt) => (
-                                    <option id={opt.id} key={opt.id} value={opt.id}>{opt.name}</option>
-                                ))}
-                            </select>
-                            <button onClick={fetchPRs}>Load Repository</button>
-                        </div>
-                    }
-                    {pullRequests && pullRequests.length > 0 &&
-                        <>
-                            <p>Select Pull Request to continue</p>
-                            <select onChange={updateSelectedPullRequest}>
-                                {pullRequests.map((pr) => (
-                                    <option id={pr.id} key={pr.id} value={pr.id}>{pr.title}</option>
-                                ))}
-                            </select>
-                            <button onClick={reviewPullRequest}>Start PR Review</button>
-                        </>
-                    }
-                </>
-
-            }
+            <button onClick={authenticate}>Start auth flow</button>
+            {user && <>User loaded</>}
         </>
     )
 }
