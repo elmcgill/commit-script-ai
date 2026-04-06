@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IAuthenticationController } from "./controller.types";
+import { IAuthenticationController } from "./types.controllers";
 import { IAuthenticationService } from "../services/types.services";
 
 export default function AuthenticationController(authenticationService:IAuthenticationService):IAuthenticationController {

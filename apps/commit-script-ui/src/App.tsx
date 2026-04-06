@@ -12,18 +12,24 @@ function App() {
     const [user, setUser] = useState();
 
     const validateUser = async () => {
-        try{
+        try {
             const [userPromise] = await Promise.all([
                 axios.get("http://localhost:3000/auth/validate"),
             ]);
             setUser(userPromise.data.user);
             setAppStatus("USER_LOADED");
-        } catch(e){
+        } catch (e) {
             setAppStatus("NEEDS_GITHUB_AUTH");
-        } 
+        }
+    }
+
+    const [repositories, setRepositories] = useState();
+
+    const fetchRepositoriesTest = async () => {
+        const res = await axios.get("http://localhost:3000/github/repositories");
     }
     /*
-        const [repositories, setRepositories] = useState();
+        
     const [selectedRepository, setSelectedRepository] = useState();
     const [pullRequests, setPullRequests] = useState();
     const [selectedPullRequest, setSelectedPullRequest] = useState();
@@ -79,9 +85,9 @@ function App() {
     */
     useEffect(() => {
         console.log(appStatus);
-        if(appStatus === "CHECKING_JWT"){
+        if (appStatus === "CHECKING_JWT") {
             validateUser();
-        } 
+        }
     }, [appStatus]);
 
     useEffect(() => {
@@ -96,7 +102,8 @@ function App() {
     return (
         <>
             <button onClick={authenticate}>Start auth flow</button>
-            {user && <>User loaded</>}
+            {user && <button onClick={fetchRepositoriesTest}>Fetch Repositories</button>}
+
         </>
     )
 }

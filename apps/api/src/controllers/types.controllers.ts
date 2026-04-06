@@ -3,6 +3,7 @@ import { RouteDefinition } from '../routes/types.routes';
 
 export interface ControllersModule {
     AuthenticationController: IAuthenticationController;
+    GithubController: IGithubController;
 }
 
 export interface IAuthenticationController {
@@ -10,6 +11,10 @@ export interface IAuthenticationController {
     authenticateUser: (req:Request, res:Response) => Promise<void>;
     validateUser: (req:Request, res:Response) => Promise<void>;
     invalidateUser: (req:Request, res:Response) => Promise<void>;
+}
+
+export interface IGithubController {
+    getAllUserRepositories: (req:Request, res:Response) => Promise<void>;
 }
 
 export interface Controller {

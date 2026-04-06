@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { IAuthenticationController } from "../controllers/controller.types";
+import { IAuthenticationController } from "../controllers/types.controllers";
 
 
 export default function AuthenticationRoutes(router: Router, controller: IAuthenticationController){
