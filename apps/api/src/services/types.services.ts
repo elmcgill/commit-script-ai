@@ -1,5 +1,5 @@
 import { User } from "../schema/user.schema"
-import { GithubRepositoryDTO } from "../types/github.types";
+import { GithubPullRequestDTO, GithubRepositoryDTO } from "../types/github.types";
 
 export interface IAuthenticationService {
     encodeUser: (user:User) => string;
@@ -10,6 +10,7 @@ export interface IAuthenticationService {
 
 export interface IGithubService {
     fetchAllUsersRespositories: (user:User) => Promise<GithubRepositoryDTO[]>;
+    fetchRepositoryPullRequests: (user:User, repository: GithubRepositoryDTO) => Promise<GithubPullRequestDTO[]>
 }
 
 export interface ServicesModule {

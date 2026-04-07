@@ -1,7 +1,7 @@
 import axios from "axios";
 import { User } from "../schema/user.schema";
 import { IGithubService } from "./types.services";
-import { GithubOrganizationResponseDTO, GithubRepositoryDTO, GithubRepositoryResponseDTO } from "../types/github.types";
+import { GithubOrganizationResponseDTO, GithubPullRequestDTO, GithubPullRequestResponseDTO, GithubRepositoryDTO, GithubRepositoryResponseDTO } from "../types/github.types";
 
 
 export function GithubService(): IGithubService {
@@ -74,8 +74,29 @@ export function GithubService(): IGithubService {
         return repositories;
     }
 
+    const fetchRepositoryPullRequests = async (user:User, repository:GithubRepositoryDTO): Promise<GithubPullRequestDTO[]> => {
+        console.log(user, repository);
+        const res = await axios.get(`${repository.url}/pulls?state=open`, {
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+
+        const pullRequests:GithubPullRequestResponseDTO[] = res.data;
+
+        return pullRequests.map((pr) => ({
+            id: pr.id,
+            title: pr.title,
+            diffUrl: pr.diff_url,
+            headRef: pr.head.ref,
+            number: pr.number
+        }));
+
+    }
+
     return {
         fetchAllUsersRespositories,
+        fetchRepositoryPullRequests
     }
 
 }

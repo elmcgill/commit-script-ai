@@ -4,6 +4,7 @@ import { IGithubController } from "../controllers/types.controllers";
 export default function GithubRoutes(router: Router, controller: IGithubController){
 
     router.get("/repositories", controller.getAllUserRepositories); 
+    router.post("/pullRequests", controller.getAllRepositoryPullRequests);
 
     return router;
 }

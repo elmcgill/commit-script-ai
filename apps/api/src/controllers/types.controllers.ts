@@ -15,6 +15,7 @@ export interface IAuthenticationController {
 
 export interface IGithubController {
     getAllUserRepositories: (req:Request, res:Response) => Promise<void>;
+    getAllRepositoryPullRequests: (req:Request, res:Response) => Promise<void>;
 }
 
 export interface Controller {

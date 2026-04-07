@@ -27,12 +27,40 @@ function App() {
 
     const fetchRepositoriesTest = async () => {
         const res = await axios.get("http://localhost:3000/github/repositories");
+        setRepositories(res.data.repositories);
     }
-    /*
-        
+
     const [selectedRepository, setSelectedRepository] = useState();
     const [pullRequests, setPullRequests] = useState();
+
+    const updateSelectedRepository = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        e.stopPropagation();
+        const id = e.currentTarget.value;
+        const repository = repositories.find((repo) => repo.id === +id);
+        setSelectedRepository(repository);
+    }
+
     const [selectedPullRequest, setSelectedPullRequest] = useState();
+    const fetchPRs = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        const repositoryName = selectedRepository?.name;
+        if (repositoryName) {
+            const res = await axios.post(`http://localhost:3000/github/pullRequests`, selectedRepository);
+            const pullRequests = res.data;
+            console.log(pullRequests);
+            setPullRequests(pullRequests.pullRequests);
+            if (pullRequests?.length > 0) setSelectedPullRequest(pullRequests[0]);
+        }
+    }
+
+    const updateSelectedPullRequest = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        e.stopPropagation();
+        const id = e.currentTarget.value;
+        const pullRequest = pullRequests.find((pr) => pr.id === + id);
+        setSelectedPullRequest(pullRequest);
+    }
+
+    /* 
 
     const decodeUserFromJWT = async () => {
         try{
@@ -47,32 +75,7 @@ function App() {
         } catch(e){
             setAppStatus("NEEDS_GITHUB_AUTH");
         } 
-    }
-  
-    const updateSelectedRepository = (e:React.ChangeEvent<HTMLSelectElement>) => {
-        e.stopPropagation();
-        const id = e.currentTarget.value;
-        const repository = repositories.find((repo) => repo.id === +id);
-        setSelectedRepository(repository);
-    }
-
-    const fetchPRs = async (e:React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        const repositoryName = selectedRepository?.name;
-        if(repositoryName){
-            const res = await axios.get(`http://localhost:3000/auth/github/pullRequests?repository=${repositoryName}`);
-            const pullRequests = res.data;
-            setPullRequests(pullRequests.pullRequests);
-            if(pullRequests?.length > 0) setSelectedPullRequest(pullRequests[0]);
-        }
-    }
-
-    const updateSelectedPullRequest = (e:React.ChangeEvent<HTMLSelectElement>) => {
-        e.stopPropagation();
-        const id = e.currentTarget.value;
-        const pullRequest = pullRequests.find((pr) => pr.id === + id);
-        setSelectedPullRequest(pullRequest);
-    }
+    } 
 
     const reviewPullRequest = async (e:React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
@@ -90,10 +93,6 @@ function App() {
         }
     }, [appStatus]);
 
-    useEffect(() => {
-        console.log(user);
-    }, [user])
-
     const authenticate = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         window.location.href = "http://localhost:3000/auth/";
@@ -103,7 +102,30 @@ function App() {
         <>
             <button onClick={authenticate}>Start auth flow</button>
             {user && <button onClick={fetchRepositoriesTest}>Fetch Repositories</button>}
-
+            {user && repositories &&
+                <div>
+                    <img src={user.avatar} alt={"Github user avatar"} style={{ width: '40px', height: '40px', objectFit: 'cover' }} />
+                    <h2>{user.username}</h2>
+                    <h2>Select repository to work with</h2>
+                    <select onChange={updateSelectedRepository}>
+                        {repositories.map((opt) => (
+                            <option id={opt.id} key={opt.id} value={opt.id}>{opt.name}</option>
+                        ))}
+                    </select>
+                    <button onClick={fetchPRs}>Load Repository</button>
+                </div>
+            }
+            {pullRequests && pullRequests.length > 0 &&
+                <>
+                    <p>Select Pull Request to continue</p>
+                    <select onChange={updateSelectedPullRequest}>
+                        {pullRequests.map((pr) => (
+                            <option id={pr.id} key={pr.id} value={pr.id}>{pr.title}</option>
+                        ))}
+                    </select>
+                    <button onClick={() => {}}>Start PR Review</button>
+                </>
+            }
         </>
     )
 }

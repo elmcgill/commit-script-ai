@@ -15,7 +15,7 @@ export type GithubOrganizationResponseDTO = {
     members_url: string,
     public_members_url: string,
     avatar_url: string,
-    description: string
+description: string
 }
 
 export type GithubUser = {
@@ -236,4 +236,164 @@ export type GithubRepositoryDTO = {
     id: number;
     name: string;
     url: string;
+}
+
+export interface BranchRef {
+  label: string;
+  ref: string;
+  sha: string;
+  repo: GithubRepositoryResponseDTO;
+  user: Nullable<GithubUser>;
+}
+
+export interface Milestone {
+  url: string;
+  html_url: string;
+  labels_url: string;
+  id: number;
+  node_id: string;
+  number: number;
+
+  state: "open" | "closed";
+  title: string;
+  description: Nullable<string>;
+
+  creator: Nullable<GithubUser>;
+
+  open_issues: number;
+  closed_issues: number;
+
+  created_at: string;
+  updated_at: string;
+  closed_at: Nullable<string>;
+  due_on: Nullable<string>;
+}
+
+export interface Link {
+  href: string;
+}
+
+export interface PullRequestLinks {
+  comments: Link;
+  commits: Link;
+  statuses: Link;
+  html: Link;
+  issue: Link;
+  review_comments: Link;
+  review_comment: Link;
+  self: Link;
+}
+
+export interface AutoMerge {
+  enabled_by: GithubUser;
+  merge_method: "merge" | "squash" | "rebase";
+  commit_title: string;
+  commit_message: string;
+}
+
+export type AuthorAssociation =
+  | "COLLABORATOR"
+  | "CONTRIBUTOR"
+  | "FIRST_TIMER"
+  | "FIRST_TIME_CONTRIBUTOR"
+  | "MANNEQUIN"
+  | "MEMBER"
+  | "NONE"
+  | "OWNER";
+
+export interface Label {
+  id: number;
+  node_id: string;
+  url: string;
+  name: string;
+  description: string;
+  color: string;
+  default: boolean;
+}
+
+export interface TeamPermissions {
+  pull: boolean;
+  triage: boolean;
+  push: boolean;
+  maintain: boolean;
+  admin: boolean;
+}
+
+export interface Team {
+  id: number;
+  node_id: string;
+  name: string;
+  slug: string;
+  description: Nullable<string>;
+  privacy?: string;
+  notification_setting?: string;
+  permission: string;
+  permissions?: TeamPermissions;
+  url: string;
+  html_url: string;
+  members_url: string;
+  repositories_url: string;
+  type: "enterprise" | "organization";
+  organization_id?: number;
+  enterprise_id?: number;
+  parent: Nullable<Team>;
+}
+
+export interface GithubPullRequestResponseDTO {
+  url: string;
+  id: number;
+  node_id: string;
+
+  html_url: string;
+  diff_url: string;
+  patch_url: string;
+
+  issue_url: string;
+  commits_url: string;
+  review_comments_url: string;
+  review_comment_url: string;
+  comments_url: string;
+  statuses_url: string;
+
+  number: number;
+  state: string;
+  locked: boolean;
+
+  title: string;
+  body: Nullable<string>;
+
+  user: Nullable<GithubUser>;
+
+  labels: Label[];
+  milestone: Nullable<Milestone>;
+
+  active_lock_reason?: Nullable<string>;
+
+  created_at: string;
+  updated_at: string;
+  closed_at: Nullable<string>;
+  merged_at: Nullable<string>;
+
+  assignees: GithubUser[];
+  requested_reviewers: GithubUser[];
+  requested_teams: Team[];
+
+  head: BranchRef;
+  base: BranchRef;
+
+  _links: PullRequestLinks;
+
+  author_association: AuthorAssociation;
+
+  auto_merge: Nullable<AutoMerge>;
+
+  draft?: boolean;
+}
+
+export interface GithubPullRequestDTO {
+    id: number;
+    title: string;
+    diffUrl: string;
+    headRef: string;
+    number: number;
 }
