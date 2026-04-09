@@ -24,7 +24,6 @@ export function AuthenticationService(userRepository: IUserRepository) {
 
         //Otherwise fetch user from database
         const userFromToken = await readById(decoded);
-        console.log("userFromToken", userFromToken);
         
         if(!userFromToken) throw new Error('Invalid user');
 

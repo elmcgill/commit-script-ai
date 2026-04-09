@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { IAuthenticationService, IGithubService } from "../services/types.services";
+import { IAuthenticationService, ICodeService, IGithubService } from "../services/types.services";
 import { IGithubController } from "./types.controllers";
-import { GithubRepositoryDTO } from "../types/github.types";
+import { GithubPullRequestDTO, GithubRepositoryDTO } from "../types/github.types";
 
-export default function GithubController(authenticationService: IAuthenticationService, githubService:IGithubService): IGithubController {
+export default function GithubController(authenticationService: IAuthenticationService, githubService:IGithubService, codeService:ICodeService): IGithubController {
 
     const getAllUserRepositories = async (req: Request, res: Response) => {
         try {
@@ -33,9 +33,26 @@ export default function GithubController(authenticationService: IAuthenticationS
         }
     }
 
+    const getPullRequestDiff = async (req:Request, res:Response) => {
+        try {
+            const token = req.cookies.token;
+            const pullRequest = req.body as GithubPullRequestDTO;
+
+            const user = await authenticationService.decodeUser(token);
+
+            //const diffText = await githubService.fetchPullRequestDiff(user, pullRequest);
+            const diff = await codeService.processGitDiff(user, pullRequest);
+
+            res.status(200).json({proccessedDiff: diff});
+        } catch(e){
+            res.status(400).json({message: "Bad request", error: e});
+        }
+    }
+
     return {
         getAllUserRepositories,
-        getAllRepositoryPullRequests
+        getAllRepositoryPullRequests,
+        getPullRequestDiff
     }
 
 }

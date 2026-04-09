@@ -15,7 +15,7 @@ export type GithubOrganizationResponseDTO = {
     members_url: string,
     public_members_url: string,
     avatar_url: string,
-description: string
+    description: string
 }
 
 export type GithubUser = {
@@ -54,182 +54,182 @@ export type GithubLicense = {
 }
 
 export type GithubPermissions = {
-  admin: boolean;
-  pull: boolean;
-  push: boolean;
-  triage?: boolean;
-  maintain?: boolean;
+    admin: boolean;
+    pull: boolean;
+    push: boolean;
+    triage?: boolean;
+    maintain?: boolean;
 }
 
 export type CodeSearchIndexStatus = {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+    lexical_search_ok?: boolean;
+    lexical_commit_sha?: string;
 }
 
 export type CodeOfConduct = {
-  url: URI;
-  key: string;
-  name: string;
-  html_url: Nullable<URI>;
+    url: URI;
+    key: string;
+    name: string;
+    html_url: Nullable<URI>;
 }
 
 export type SecurityFeature = {
-  status: SecurityStatus;
+    status: SecurityStatus;
 }
 
 export type SecretScanningBypassReviewer = {
-  reviewer_id: number;
-  reviewer_type: "TEAM" | "ROLE";
+    reviewer_id: number;
+    reviewer_type: "TEAM" | "ROLE";
 }
 
 export type SecurityAndAnalysis = {
-  advanced_security?: SecurityFeature;
-  code_security?: SecurityFeature;
-  dependabot_security_updates?: SecurityFeature;
-  secret_scanning?: SecurityFeature;
-  secret_scanning_push_protection?: SecurityFeature;
-  secret_scanning_non_provider_patterns?: SecurityFeature;
-  secret_scanning_ai_detection?: SecurityFeature;
-  secret_scanning_delegated_alert_dismissal?: SecurityFeature;
-  secret_scanning_delegated_bypass?: SecurityFeature;
-  secret_scanning_delegated_bypass_options?: {
-    reviewers: SecretScanningBypassReviewer[];
-  };
+    advanced_security?: SecurityFeature;
+    code_security?: SecurityFeature;
+    dependabot_security_updates?: SecurityFeature;
+    secret_scanning?: SecurityFeature;
+    secret_scanning_push_protection?: SecurityFeature;
+    secret_scanning_non_provider_patterns?: SecurityFeature;
+    secret_scanning_ai_detection?: SecurityFeature;
+    secret_scanning_delegated_alert_dismissal?: SecurityFeature;
+    secret_scanning_delegated_bypass?: SecurityFeature;
+    secret_scanning_delegated_bypass_options?: {
+        reviewers: SecretScanningBypassReviewer[];
+    };
 }
 
 export interface GithubRepository {
-  id: number;
-  node_id: string;
-  name: string;
-  full_name: string;
+    id: number;
+    node_id: string;
+    name: string;
+    full_name: string;
 
-  owner: GithubUser;
+    owner: GithubUser;
 
-  private: boolean;
-  html_url: URI;
-  description: Nullable<string>;
-  fork: boolean;
-  url: URI;
+    private: boolean;
+    html_url: URI;
+    description: Nullable<string>;
+    fork: boolean;
+    url: URI;
 
-  archive_url: string;
-  assignees_url: string;
-  blobs_url: string;
-  branches_url: string;
-  collaborators_url: string;
-  comments_url: string;
-  commits_url: string;
-  compare_url: string;
-  contents_url: string;
-  contributors_url: URI;
-  deployments_url: URI;
-  downloads_url: URI;
-  events_url: URI;
-  forks_url: URI;
-  git_commits_url: string;
-  git_refs_url: string;
-  git_tags_url: string;
-  git_url: string;
-  issue_comment_url: string;
-  issue_events_url: string;
-  issues_url: string;
-  keys_url: string;
-  labels_url: string;
-  languages_url: URI;
-  merges_url: URI;
-  milestones_url: string;
-  notifications_url: string;
-  pulls_url: string;
-  releases_url: string;
-  ssh_url: string;
-  stargazers_url: URI;
-  statuses_url: string;
-  subscribers_url: URI;
-  subscription_url: URI;
-  tags_url: URI;
-  teams_url: URI;
-  trees_url: string;
-  clone_url: string;
-  mirror_url: Nullable<URI>;
-  hooks_url: URI;
-  svn_url: URI;
+    archive_url: string;
+    assignees_url: string;
+    blobs_url: string;
+    branches_url: string;
+    collaborators_url: string;
+    comments_url: string;
+    commits_url: string;
+    compare_url: string;
+    contents_url: string;
+    contributors_url: URI;
+    deployments_url: URI;
+    downloads_url: URI;
+    events_url: URI;
+    forks_url: URI;
+    git_commits_url: string;
+    git_refs_url: string;
+    git_tags_url: string;
+    git_url: string;
+    issue_comment_url: string;
+    issue_events_url: string;
+    issues_url: string;
+    keys_url: string;
+    labels_url: string;
+    languages_url: URI;
+    merges_url: URI;
+    milestones_url: string;
+    notifications_url: string;
+    pulls_url: string;
+    releases_url: string;
+    ssh_url: string;
+    stargazers_url: URI;
+    statuses_url: string;
+    subscribers_url: URI;
+    subscription_url: URI;
+    tags_url: URI;
+    teams_url: URI;
+    trees_url: string;
+    clone_url: string;
+    mirror_url: Nullable<URI>;
+    hooks_url: URI;
+    svn_url: URI;
 
-  homepage: Nullable<URI>;
-  language: Nullable<string>;
+    homepage: Nullable<URI>;
+    language: Nullable<string>;
 
-  forks_count: number;
-  stargazers_count: number;
-  watchers_count: number;
-  size: number;
+    forks_count: number;
+    stargazers_count: number;
+    watchers_count: number;
+    size: number;
 
-  default_branch: string;
-  open_issues_count: number;
+    default_branch: string;
+    open_issues_count: number;
 
-  is_template: boolean;
-  topics: string[];
+    is_template: boolean;
+    topics: string[];
 
-  has_issues: boolean;
-  has_projects: boolean;
-  has_wiki: boolean;
-  has_pages: boolean;
-  has_discussions: boolean;
-  has_pull_requests: boolean;
+    has_issues: boolean;
+    has_projects: boolean;
+    has_wiki: boolean;
+    has_pages: boolean;
+    has_discussions: boolean;
+    has_pull_requests: boolean;
 
-  pull_request_creation_policy: "all" | "collaborators_only";
+    pull_request_creation_policy: "all" | "collaborators_only";
 
-  archived: boolean;
-  disabled: boolean;
-  visibility: string;
+    archived: boolean;
+    disabled: boolean;
+    visibility: string;
 
-  pushed_at: Nullable<DateTime>;
-  created_at: Nullable<DateTime>;
-  updated_at: Nullable<DateTime>;
+    pushed_at: Nullable<DateTime>;
+    created_at: Nullable<DateTime>;
+    updated_at: Nullable<DateTime>;
 
-  permissions?: GithubPermissions;
+    permissions?: GithubPermissions;
 }
 
 export interface GithubRepositoryResponseDTO extends GithubRepository {
-  allow_rebase_merge: boolean;
-  allow_squash_merge: boolean;
-  allow_auto_merge: boolean;
-  allow_merge_commit: boolean;
-  allow_update_branch: boolean;
-  delete_branch_on_merge: boolean;
-  allow_forking: boolean;
+    allow_rebase_merge: boolean;
+    allow_squash_merge: boolean;
+    allow_auto_merge: boolean;
+    allow_merge_commit: boolean;
+    allow_update_branch: boolean;
+    delete_branch_on_merge: boolean;
+    allow_forking: boolean;
 
-  squash_merge_commit_title: "PR_TITLE" | "COMMIT_OR_PR_TITLE";
-  squash_merge_commit_message: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
+    squash_merge_commit_title: "PR_TITLE" | "COMMIT_OR_PR_TITLE";
+    squash_merge_commit_message: "PR_BODY" | "COMMIT_MESSAGES" | "BLANK";
 
-  merge_commit_title: "PR_TITLE" | "MERGE_MESSAGE";
-  merge_commit_message: "PR_BODY" | "PR_TITLE" | "BLANK";
+    merge_commit_title: "PR_TITLE" | "MERGE_MESSAGE";
+    merge_commit_message: "PR_BODY" | "PR_TITLE" | "BLANK";
 
-  web_commit_signoff_required: boolean;
+    web_commit_signoff_required: boolean;
 
-  subscribers_count: number;
-  network_count: number;
+    subscribers_count: number;
+    network_count: number;
 
-  license: Nullable<GithubLicense>;
-  organization: Nullable<GithubUser>;
+    license: Nullable<GithubLicense>;
+    organization: Nullable<GithubUser>;
 
-  parent?: GithubRepository;
-  source?: GithubRepository;
-  template_repository?: Nullable<GithubRepository>;
+    parent?: GithubRepository;
+    source?: GithubRepository;
+    template_repository?: Nullable<GithubRepository>;
 
-  temp_clone_token?: Nullable<string>;
+    temp_clone_token?: Nullable<string>;
 
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
+    forks?: number;
+    open_issues?: number;
+    watchers?: number;
 
-  master_branch?: string;
-  starred_at?: string;
+    master_branch?: string;
+    starred_at?: string;
 
-  anonymous_access_enabled?: boolean;
+    anonymous_access_enabled?: boolean;
 
-  code_search_index_status?: CodeSearchIndexStatus;
+    code_search_index_status?: CodeSearchIndexStatus;
 
-  code_of_conduct?: CodeOfConduct;
+    code_of_conduct?: CodeOfConduct;
 
-  security_and_analysis?: Nullable<SecurityAndAnalysis>;
+    security_and_analysis?: Nullable<SecurityAndAnalysis>;
 }
 
 export type GithubRepositoryDTO = {
@@ -239,161 +239,199 @@ export type GithubRepositoryDTO = {
 }
 
 export interface BranchRef {
-  label: string;
-  ref: string;
-  sha: string;
-  repo: GithubRepositoryResponseDTO;
-  user: Nullable<GithubUser>;
+    label: string;
+    ref: string;
+    sha: string;
+    repo: GithubRepositoryResponseDTO;
+    user: Nullable<GithubUser>;
 }
 
 export interface Milestone {
-  url: string;
-  html_url: string;
-  labels_url: string;
-  id: number;
-  node_id: string;
-  number: number;
+    url: string;
+    html_url: string;
+    labels_url: string;
+    id: number;
+    node_id: string;
+    number: number;
 
-  state: "open" | "closed";
-  title: string;
-  description: Nullable<string>;
+    state: "open" | "closed";
+    title: string;
+    description: Nullable<string>;
 
-  creator: Nullable<GithubUser>;
+    creator: Nullable<GithubUser>;
 
-  open_issues: number;
-  closed_issues: number;
+    open_issues: number;
+    closed_issues: number;
 
-  created_at: string;
-  updated_at: string;
-  closed_at: Nullable<string>;
-  due_on: Nullable<string>;
+    created_at: string;
+    updated_at: string;
+    closed_at: Nullable<string>;
+    due_on: Nullable<string>;
 }
 
 export interface Link {
-  href: string;
+    href: string;
 }
 
 export interface PullRequestLinks {
-  comments: Link;
-  commits: Link;
-  statuses: Link;
-  html: Link;
-  issue: Link;
-  review_comments: Link;
-  review_comment: Link;
-  self: Link;
+    comments: Link;
+    commits: Link;
+    statuses: Link;
+    html: Link;
+    issue: Link;
+    review_comments: Link;
+    review_comment: Link;
+    self: Link;
 }
 
 export interface AutoMerge {
-  enabled_by: GithubUser;
-  merge_method: "merge" | "squash" | "rebase";
-  commit_title: string;
-  commit_message: string;
+    enabled_by: GithubUser;
+    merge_method: "merge" | "squash" | "rebase";
+    commit_title: string;
+    commit_message: string;
 }
 
 export type AuthorAssociation =
-  | "COLLABORATOR"
-  | "CONTRIBUTOR"
-  | "FIRST_TIMER"
-  | "FIRST_TIME_CONTRIBUTOR"
-  | "MANNEQUIN"
-  | "MEMBER"
-  | "NONE"
-  | "OWNER";
+    | "COLLABORATOR"
+    | "CONTRIBUTOR"
+    | "FIRST_TIMER"
+    | "FIRST_TIME_CONTRIBUTOR"
+    | "MANNEQUIN"
+    | "MEMBER"
+    | "NONE"
+    | "OWNER";
 
 export interface Label {
-  id: number;
-  node_id: string;
-  url: string;
-  name: string;
-  description: string;
-  color: string;
-  default: boolean;
+    id: number;
+    node_id: string;
+    url: string;
+    name: string;
+    description: string;
+    color: string;
+    default: boolean;
 }
 
 export interface TeamPermissions {
-  pull: boolean;
-  triage: boolean;
-  push: boolean;
-  maintain: boolean;
-  admin: boolean;
+    pull: boolean;
+    triage: boolean;
+    push: boolean;
+    maintain: boolean;
+    admin: boolean;
 }
 
 export interface Team {
-  id: number;
-  node_id: string;
-  name: string;
-  slug: string;
-  description: Nullable<string>;
-  privacy?: string;
-  notification_setting?: string;
-  permission: string;
-  permissions?: TeamPermissions;
-  url: string;
-  html_url: string;
-  members_url: string;
-  repositories_url: string;
-  type: "enterprise" | "organization";
-  organization_id?: number;
-  enterprise_id?: number;
-  parent: Nullable<Team>;
+    id: number;
+    node_id: string;
+    name: string;
+    slug: string;
+    description: Nullable<string>;
+    privacy?: string;
+    notification_setting?: string;
+    permission: string;
+    permissions?: TeamPermissions;
+    url: string;
+    html_url: string;
+    members_url: string;
+    repositories_url: string;
+    type: "enterprise" | "organization";
+    organization_id?: number;
+    enterprise_id?: number;
+    parent: Nullable<Team>;
 }
 
 export interface GithubPullRequestResponseDTO {
-  url: string;
-  id: number;
-  node_id: string;
+    url: string;
+    id: number;
+    node_id: string;
 
-  html_url: string;
-  diff_url: string;
-  patch_url: string;
+    html_url: string;
+    diff_url: string;
+    patch_url: string;
 
-  issue_url: string;
-  commits_url: string;
-  review_comments_url: string;
-  review_comment_url: string;
-  comments_url: string;
-  statuses_url: string;
+    issue_url: string;
+    commits_url: string;
+    review_comments_url: string;
+    review_comment_url: string;
+    comments_url: string;
+    statuses_url: string;
 
-  number: number;
-  state: string;
-  locked: boolean;
+    number: number;
+    state: string;
+    locked: boolean;
 
-  title: string;
-  body: Nullable<string>;
+    title: string;
+    body: Nullable<string>;
 
-  user: Nullable<GithubUser>;
+    user: Nullable<GithubUser>;
 
-  labels: Label[];
-  milestone: Nullable<Milestone>;
+    labels: Label[];
+    milestone: Nullable<Milestone>;
 
-  active_lock_reason?: Nullable<string>;
+    active_lock_reason?: Nullable<string>;
 
-  created_at: string;
-  updated_at: string;
-  closed_at: Nullable<string>;
-  merged_at: Nullable<string>;
+    created_at: string;
+    updated_at: string;
+    closed_at: Nullable<string>;
+    merged_at: Nullable<string>;
 
-  assignees: GithubUser[];
-  requested_reviewers: GithubUser[];
-  requested_teams: Team[];
+    assignees: GithubUser[];
+    requested_reviewers: GithubUser[];
+    requested_teams: Team[];
 
-  head: BranchRef;
-  base: BranchRef;
+    head: BranchRef;
+    base: BranchRef;
 
-  _links: PullRequestLinks;
+    _links: PullRequestLinks;
 
-  author_association: AuthorAssociation;
+    author_association: AuthorAssociation;
 
-  auto_merge: Nullable<AutoMerge>;
+    auto_merge: Nullable<AutoMerge>;
 
-  draft?: boolean;
+    draft?: boolean;
 }
 
 export interface GithubPullRequestDTO {
     id: number;
     title: string;
-    diffUrl: string;
+    url: string;
     headRef: string;
     number: number;
+}
+
+export type GithubPullRequestFile = {
+    sha: string,
+    fileName: string,
+    status: string,
+    additions: number,
+    deletions: number,
+    changes: number,
+    blob_url: string,
+    raw_url: string,
+    contents_url: string,
+    patch: string
+}
+
+export type GithubRepositoryFileContentResponseLinks = {
+    self: string,
+    git: string,
+    html: string
+}
+
+export type GithubRepositoryFileContentResponseDTO = {
+    name: string,
+    path: string,
+    size: number,
+    url: string,
+    html_url: string,
+    git_url: string,
+    download_url: string,
+    type: string,
+    content: string,
+    encoding: string,
+    _links: GithubRepositoryFileContentResponseLinks
+}
+
+export type GithubPullRequestFileContent = {
+    file: string;
+    content: string;
 }

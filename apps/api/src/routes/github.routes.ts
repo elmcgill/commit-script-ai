@@ -5,6 +5,7 @@ export default function GithubRoutes(router: Router, controller: IGithubControll
 
     router.get("/repositories", controller.getAllUserRepositories); 
     router.post("/pullRequests", controller.getAllRepositoryPullRequests);
+    router.post("/diff", controller.getPullRequestDiff);
 
     return router;
 }

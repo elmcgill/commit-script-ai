@@ -29,9 +29,7 @@ export default function AuthenticationController(authenticationService:IAuthenti
     const validateUser = async (req:Request, res:Response) => {
         try {
             const token = req.cookies.token;
-            console.log(token);
             const user = await authenticationService.validate(token);
-            console.log(user);
             res.status(200).json({user, message: "User authorized successfully"});
         } catch(e){
             console.error(e);

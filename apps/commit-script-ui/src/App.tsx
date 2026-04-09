@@ -47,7 +47,6 @@ function App() {
         if (repositoryName) {
             const res = await axios.post(`http://localhost:3000/github/pullRequests`, selectedRepository);
             const pullRequests = res.data;
-            console.log(pullRequests);
             setPullRequests(pullRequests.pullRequests);
             if (pullRequests?.length > 0) setSelectedPullRequest(pullRequests[0]);
         }
@@ -58,6 +57,11 @@ function App() {
         const id = e.currentTarget.value;
         const pullRequest = pullRequests.find((pr) => pr.id === + id);
         setSelectedPullRequest(pullRequest);
+    }
+
+    const testFileDiff = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        const res = await axios.post('http://localhost:3000/walkthrough/generate', selectedPullRequest);
     }
 
     /* 
@@ -123,7 +127,7 @@ function App() {
                             <option id={pr.id} key={pr.id} value={pr.id}>{pr.title}</option>
                         ))}
                     </select>
-                    <button onClick={() => {}}>Start PR Review</button>
+                    <button onClick={testFileDiff}>Test file diff</button>
                 </>
             }
         </>
